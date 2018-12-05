@@ -28,8 +28,7 @@ RUN cd Python-3.6.3 && ./configure && make && make install
 
 # install tensorflow, pytorch
 RUN pip3 install --upgrade pip
-RUN pip3 install --no-cache-dir tensorflow-gpu==1.11.0
-RUN pip3 install torch==0.4.0
+RUN pip3 install --no-cache-dir tensorflow-gpu==1.11.0 torch==0.4.0
 
 RUN ln -fs /usr/local/bin/python3 /usr/local/bin/python && rm Python-3.6.3.tgz && rm -R Python-3.6.3
 
