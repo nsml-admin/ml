@@ -1,16 +1,11 @@
 FROM nvidia/cuda:10.0-devel-ubuntu18.04
 
-RUN apt-get update && apt-get install -y wget zlib1g-dev libssl-dev curl
-RUN wget https://www.python.org/ftp/python/3.6.3/Python-3.6.3.tgz && tar -xvf Python-3.6.3.tgz
-RUN cd Python-3.6.3 && ./configure && make && make install
-
-RUN pip3 install --upgrade pip
-RUN pip3 install --no-cache-dir tensorflow-gpu==1.11.0 torch==0.3.1
-
-RUN ln -fs /usr/local/bin/python3 /usr/local/bin/python && rm Python-3.6.3.tgz && rm -R Python-3.6.3
-
 RUN apt-get update && \
         apt-get install -y \
+        wget \
+        zlib1g-dev \
+        libssl-dev \
+        curl\
         build-essential \
         cmake \
         git \
@@ -27,6 +22,19 @@ RUN apt-get update && \
         libavformat-dev \
         libpq-dev
 
+# install python
+RUN wget https://www.python.org/ftp/python/3.6.3/Python-3.6.3.tgz && tar -xvf Python-3.6.3.tgz
+RUN cd Python-3.6.3 && ./configure && make && make install
+
+# install tensorflow, pytorch
+RUN pip3 install --upgrade pip
+RUN pip3 install --no-cache-dir tensorflow-gpu==1.11.0
+RUN pip3 install torch==0.4.0
+
+RUN ln -fs /usr/local/bin/python3 /usr/local/bin/python && rm Python-3.6.3.tgz && rm -R Python-3.6.3
+
+
+# install opencv
 WORKDIR /
 ENV OPENCV_VERSION="4.0.0"
 RUN wget https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip \
@@ -53,5 +61,8 @@ RUN wget https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip \
 && make install \
 && rm /${OPENCV_VERSION}.zip \
 && rm -r /opencv-${OPENCV_VERSION}
+
+# link cv to python library
+RUN ln -sf /usr/local/python/cv2 /usr/local/lib/python3.6/site-packages
 
 ENV LANG C.UTF-8
