@@ -1,4 +1,4 @@
-FROM nvidia/cuda:10.0-devel-ubuntu18.04
+FROM nvidia/cuda:9.2-devel-ubuntu18.04
 
 RUN apt-get update && \
         apt-get install -y \
@@ -25,13 +25,11 @@ RUN apt-get update && \
 # install python
 RUN wget https://www.python.org/ftp/python/3.6.3/Python-3.6.3.tgz && tar -xvf Python-3.6.3.tgz
 RUN cd Python-3.6.3 && ./configure && make && make install
+RUN ln -fs /usr/local/bin/python3 /usr/local/bin/python && rm Python-3.6.3.tgz && rm -R Python-3.6.3
 
 # install tensorflow, pytorch
 RUN pip3 install --upgrade pip
 RUN pip3 install --no-cache-dir tensorflow-gpu==1.11.0 torch==0.4.0
-
-RUN ln -fs /usr/local/bin/python3 /usr/local/bin/python && rm Python-3.6.3.tgz && rm -R Python-3.6.3
-
 
 # install opencv
 WORKDIR /
