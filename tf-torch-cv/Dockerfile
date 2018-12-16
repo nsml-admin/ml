@@ -1,4 +1,4 @@
-FROM nvidia/cuda:9.2-cudnn7-devel
+FROM nvidia/cuda:9.0-cudnn7-devel
 
 RUN apt-get update && \
         apt-get install -y \
@@ -20,7 +20,8 @@ RUN apt-get update && \
         libpng-dev \
         libtiff-dev \
         libavformat-dev \
-        libpq-dev
+        libpq-dev \
+        vim
 
 # install python
 RUN wget https://www.python.org/ftp/python/3.6.3/Python-3.6.3.tgz && tar -xvf Python-3.6.3.tgz
@@ -29,7 +30,7 @@ RUN ln -fs /usr/local/bin/python3 /usr/local/bin/python && rm Python-3.6.3.tgz &
 
 # install tensorflow, pytorch
 RUN pip3 install --upgrade pip
-RUN pip3 install --no-cache-dir tensorflow-gpu==1.11.0 torch==0.4.0
+RUN pip3 install --no-cache-dir tensorflow-gpu==1.11.0 torch==1.0.0 torchvision
 
 # install opencv
 WORKDIR /
