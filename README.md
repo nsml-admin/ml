@@ -5,5 +5,5 @@
     - tensorflow==1.11.0
     - opencv==4.0.0
 
-- [cuda9.2-cudnn7-torch1.0](https://github.com/nsml-admin/ml/blob/master/torch/torch-1.0/Dockerfile)
+- [nsml/ml:cuda9.2-cudnn7-torch1.0](https://github.com/nsml-admin/ml/blob/master/torch/torch-1.0/Dockerfile)
     - torch==1.0
