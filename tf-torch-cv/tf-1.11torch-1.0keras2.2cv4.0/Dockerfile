@@ -28,9 +28,9 @@ RUN wget https://www.python.org/ftp/python/3.6.3/Python-3.6.3.tgz && tar -xvf Py
 RUN cd Python-3.6.3 && ./configure && make && make install
 RUN ln -fs /usr/local/bin/python3 /usr/local/bin/python && rm Python-3.6.3.tgz && rm -R Python-3.6.3
 
-# install tensorflow, pytorch
+# install tensorflow, pytorch, keras
 RUN pip3 install --upgrade pip
-RUN pip3 install --no-cache-dir tensorflow-gpu==1.11.0 torch==1.0.0 torchvision
+RUN pip3 install --no-cache-dir tensorflow-gpu==1.11.0 torch==1.0.0 keras==2.2.4 torchvision
 
 # install opencv
 WORKDIR /
