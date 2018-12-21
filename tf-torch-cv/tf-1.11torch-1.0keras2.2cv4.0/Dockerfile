@@ -23,14 +23,20 @@ RUN apt-get update && \
         libpq-dev \
         vim
 
-# install python
-RUN wget https://www.python.org/ftp/python/3.6.3/Python-3.6.3.tgz && tar -xvf Python-3.6.3.tgz
-RUN cd Python-3.6.3 && ./configure && make && make install
-RUN ln -fs /usr/local/bin/python3 /usr/local/bin/python && rm Python-3.6.3.tgz && rm -R Python-3.6.3
+# install miniconda
+RUN wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O Miniconda.sh && \
+	/bin/bash Miniconda.sh -b -p /opt/conda && \
+	rm Miniconda.sh
+
+ENV PATH /opt/conda/bin:$PATH
+RUN ln -s /opt/conda/bin/pip /opt/conda/bin/pip3
+
+# setup python
+RUN conda install python=3.6
 
 # install tensorflow, pytorch, keras
 RUN pip3 install --upgrade pip
-RUN pip3 install --no-cache-dir tensorflow-gpu==1.11.0 torch==1.0.0 keras==2.2.4 torchvision
+RUN pip3 install --no-cache-dir tensorflow-gpu==1.11.0 torch==1.0.0 keras==2.2.4 torchvision numpy
 
 # install opencv
 WORKDIR /
