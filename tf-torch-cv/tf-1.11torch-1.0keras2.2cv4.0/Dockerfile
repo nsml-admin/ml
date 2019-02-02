@@ -67,6 +67,5 @@ RUN wget https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip \
 && rm -r /opencv-${OPENCV_VERSION}
 
 # link cv to python library
-RUN ln -sf /usr/local/python/cv2 $(python -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
-
+RUN ln -sf /opt/conda/python/cv2/python-3.6/cv2.cpython-36m-x86_64-linux-gnu.so $(python -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 ENV LANG C.UTF-8
