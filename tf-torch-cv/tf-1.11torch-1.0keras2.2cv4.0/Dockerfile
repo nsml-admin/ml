@@ -21,6 +21,7 @@ RUN apt-get update && \
         libtiff-dev \
         libavformat-dev \
         libpq-dev \
+        libgl1-mesa-glx \
         vim
 
 # install miniconda
@@ -33,39 +34,18 @@ RUN ln -s /opt/conda/bin/pip /opt/conda/bin/pip3
 
 # setup python
 RUN conda install python=3.6
+# install conda opencv for dependency pip install opencv-python
+RUN conda install -c conda-forge opencv -y
 
 # install tensorflow, pytorch, keras
-RUN pip3 install --upgrade pip
-RUN pip3 install --no-cache-dir tensorflow-gpu==1.11.0 torch==1.0.0 keras==2.2.4 torchvision numpy
+RUN pip3 install --upgrade pip && \
+        pip3 install --no-cache-dir tensorflow-gpu==1.11.0 \
+        torch==1.0.0 \
+        keras==2.2.4 \
+        torchvision \
+        numpy \
+        opencv-python
 
-# install opencv
-WORKDIR /
-ENV OPENCV_VERSION="4.0.0"
-RUN wget https://github.com/opencv/opencv/archive/${OPENCV_VERSION}.zip \
-&& unzip ${OPENCV_VERSION}.zip \
-&& mkdir /opencv-${OPENCV_VERSION}/cmake_binary \
-&& cd /opencv-${OPENCV_VERSION}/cmake_binary \
-&& cmake -DBUILD_TIFF=ON \
-  -DBUILD_opencv_java=OFF \
-  -DWITH_CUDA=OFF \
-  -DWITH_OPENGL=ON \
-  -DWITH_OPENCL=ON \
-  -DWITH_IPP=ON \
-  -DWITH_TBB=ON \
-  -DWITH_EIGEN=ON \
-  -DWITH_V4L=ON \
-  -DBUILD_TESTS=OFF \
-  -DBUILD_PERF_TESTS=OFF \
-  -DCMAKE_BUILD_TYPE=RELEASE \
-  -DCMAKE_INSTALL_PREFIX=$(python -c "import sys; print(sys.prefix)") \
-  -DPYTHON_EXECUTABLE=$(which python) \
-  -DPYTHON_INCLUDE_DIR=$(python -c "from distutils.sysconfig import get_python_inc; print(get_python_inc())") \
-  -DPYTHON_PACKAGES_PATH=$(python -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())") \
-  .. \
-&& make install \
-&& rm /${OPENCV_VERSION}.zip \
-&& rm -r /opencv-${OPENCV_VERSION}
 
-# link cv to python library
-RUN ln -sf /opt/conda/python/cv2/python-3.6/cv2.cpython-36m-x86_64-linux-gnu.so $(python -c "from distutils.sysconfig import get_python_lib; print(get_python_lib())")
 ENV LANG C.UTF-8
+WORKDIR /

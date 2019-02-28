@@ -21,8 +21,8 @@ RUN apt-get update && \
         libtiff-dev \
         libavformat-dev \
         libpq-dev \
-        vim\
-        libgl1-mesa-glx
+        libgl1-mesa-glx \
+        vim
 
 # install miniconda
 RUN wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O Miniconda.sh && \
@@ -47,4 +47,3 @@ RUN conda install -c conda-forge opencv==3.4.3 -y
 ENV LANG C.UTF-8
 
 WORKDIR /
-
