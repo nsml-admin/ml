@@ -25,7 +25,7 @@ RUN apt-get update && \
         vim
 
 # install miniconda
-RUN wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O Miniconda.sh && \
+RUN wget https://repo.continuum.io/miniconda/Miniconda3-4.5.11-Linux-x86_64.sh -O Miniconda.sh && \
 	/bin/bash Miniconda.sh -b -p /opt/conda && \
 	rm Miniconda.sh
 
