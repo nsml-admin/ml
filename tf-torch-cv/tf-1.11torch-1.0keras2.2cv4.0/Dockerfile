@@ -42,7 +42,7 @@ RUN pip3 install --upgrade pip && \
         pip3 install --no-cache-dir tensorflow-gpu==1.11.0 \
         torch==1.0.0 \
         keras==2.2.4 \
-        torchvision \
+        torchvision==0.2.2 \
         numpy \
         opencv-python \
         visdom \
