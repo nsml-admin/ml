@@ -44,7 +44,10 @@ RUN pip3 install --upgrade pip && \
         keras==2.2.4 \
         torchvision \
         numpy \
-        opencv-python
+        opencv-python \
+        visdom \
+        pandas \
+        scikit-learn
 
 
 ENV LANG C.UTF-8
